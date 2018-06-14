@@ -1,0 +1,18 @@
+.friend{
+    width: 100% !important;
+    display: block !important;
+    position: relative !important;
+    float: none !important;
+    margin: 0 auto !important;
+}
+nav{
+    position: absolute !important;
+}
+.friendForm{
+    width: 100% !important;
+    display: block !important;
+    position: relative !important;
+    float: none !important;
+    margin: 0 auto !important;
+    margin-top:100px !important;
+}
