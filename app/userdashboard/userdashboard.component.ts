@@ -12,13 +12,14 @@ export class UserdashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getUserCall();
-    this.getMessage();
+    setInterval(()=>{
+      this.refreshCycle();},1000);
   }
 
   userData;
-  messagesReceived;
 
-  toggleVar: boolean = false;
+  toggleVar: boolean = true;
+  toggleVar1: boolean = false;
 
   getUserCall(){
     this.dataService.getUser().subscribe(data=>{
@@ -27,18 +28,12 @@ export class UserdashboardComponent implements OnInit {
     })
   }
 
-  toggleVarfunc(){
-    this.toggleVar = !this.toggleVar;
+  toggleVarfunc1(){
+    this.toggleVar1 = !this.toggleVar1;
   }
 
-  postMessage(msg){
-    this.dataService.postMSG(msg).subscribe();
-  }
-
-  getMessage(){
-    this.dataService.getMSG().subscribe(data=>{
-      this.messagesReceived = data;
-    })
-  }
-
+  refreshCycle(){
+    this.toggleVar = false;
+    setTimeout(()=>{this.toggleVar = true;},1);
+    }
 }
