@@ -9,6 +9,7 @@ const router = express.Router();
 //importing models
 const User = require('../models/user');
 const Message = require('../models/message');
+const Friend = require('../models/friend');
 
 //login system
 
@@ -78,7 +79,7 @@ router.get('/dashboard',checkAuth,(req,res,next)=>{
 
 //chat system
 
-router.post('/chat',(req,res,next)=>{
+router.post('/chat',checkAuth,(req,res,next)=>{
     let newmessage = new Message ({
         message: req.body.message,
         sender: decodedUserData[0].Email,
@@ -90,10 +91,36 @@ router.post('/chat',(req,res,next)=>{
       });
 });
 
-router.get('/chat',(req,res,next)=>{
+router.get('/chat',checkAuth,(req,res,next)=>{
     Message.find({"accessibleBy":decodedUserData[0].Email},(err,data)=>{
         if(err){
             res.json(err);
+        }else{
+            res.json(data);
+        }
+    })
+})
+
+//friend list system
+
+router.post('/friends',checkAuth,(req,res,next)=>{
+    let newFriend = new Friend({
+        UsernameOfFriend: req.body.usernameOfFriend,
+        EmailOfUser : decodedUserData[0].Email
+    })
+    newFriend.save(function(err){
+        if(err){
+            throw err;
+        }else{
+            console.log(newFriend);
+        }
+    })
+});
+
+router.get('/friends',checkAuth,(req,res,next)=>{
+    Friend.find({"EmailOfUser":decodedUserData[0].Email},(err,data)=>{
+        if(err){
+            throw err;
         }else{
             res.json(data);
         }
